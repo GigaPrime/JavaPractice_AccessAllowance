@@ -1,6 +1,8 @@
 import java.util.HashMap;
 import java.util.Map;
 
+import sun.jvm.hotspot.runtime.ConcurrentLocksPrinter;
+
 public interface MethodHandler {
 	void interfaceMethod(int userId);
 }
@@ -28,31 +30,22 @@ class MethodHandlerImp implements MethodHandler{
 		
 		long loginTime = System.currentTimeMillis();
 		
-		if(!userIdStorage.containsKey(userId)) {
-			Pair<Integer, Long> userData = new Pair<>(1, loginTime);
-			userIdStorage.put(userId, userData);
-			System.out.println("User with id: " + userId + " access allowed");
-			//System.out.println("New user created");
+		Pair<Integer, Long> userData = userIdStorage.getOrDefault(userId, new Pair<>(0, loginTime));
+		userIdStorage.put(userId, userData);
+		
+		int tmpAttemptNumber = userData.getAccessAttempts();
+		tmpAttemptNumber++;
+		userData.setAccessAttempts(tmpAttemptNumber);
+		
+		if(!isAccessTimerOut(userId) && isAccessAttemptsOut(userId)){
+			System.out.println("User with id: " + userId + " access denied");
 			return;
 		}
 		
-		int tmpAttemptNumber = userIdStorage.get(userId).getAccessAttempts();
-		tmpAttemptNumber++;
-		userIdStorage.get(userId).setAccessAttempts(tmpAttemptNumber);
-		
 		if(isAccessTimerOut(userId)) {
-			System.out.println("User with id: " + userId + " access allowed");
 			userIdStorage.get(userId).setAccessTime(System.currentTimeMillis());
 			userIdStorage.get(userId).setAccessAttempts(1);
-			//System.out.println("Timer out");
-			
-		} else if(!isAccessTimerOut(userId) && !isAccessAttemptsOut(userId)) {
-			System.out.println("User with id: " + userId + " access allowed");
-			//System.out.println("Timer !out && attempts !out");
-			
-		} else if(!isAccessTimerOut(userId) && isAccessAttemptsOut(userId)) {
-			System.out.println("User with id: " + userId + " access denied");
-			//System.out.println("Timer !out && attempts out");
 		}
+		System.out.println("User with id: " + userId + " access allowed");
 	}
 }
