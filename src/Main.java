@@ -1,5 +1,5 @@
 // 
-// Limit access to method not more than 5 times in a minute per user
+// Limit access to method not more than 5 times in a second per user
 //
 
 public class Main {
@@ -13,10 +13,9 @@ public class Main {
 		MethodHandler mh = new MethodHandlerImp();
 		
 		for(int i = 1; i <= 10; ++i){
-			long loginTime = System.currentTimeMillis();
-			Thread.sleep(50);
-			mh.interfaceMethod(1, loginTime);
+			mh.interfaceMethod(1);
 			System.out.println(i + " times");
+			Thread.sleep(50);
 		}	
 	}
 	
@@ -24,10 +23,9 @@ public class Main {
 		MethodHandler mh = new MethodHandlerImp();
 		
 		for(int i = 1; i <= 20; ++i){
-			long LoginTime = System.currentTimeMillis();
-			Thread.sleep(50);
-			mh.interfaceMethod(1, LoginTime);
+			mh.interfaceMethod(1);
 			System.out.println(i + " times");
+			Thread.sleep(50);
 		}	
 	}
 	
@@ -35,18 +33,10 @@ public class Main {
 		MethodHandler mh = new MethodHandlerImp();
 		
 		for(int i = 1; i <= 20; ++i){
-			long LoginTimeFirstUser = System.currentTimeMillis();
-			Thread.sleep(50);
-			mh.interfaceMethod(1, LoginTimeFirstUser);
-			
-			long LoginTimeSecondUser = System.currentTimeMillis();
-			Thread.sleep(75);
-			mh.interfaceMethod(2, LoginTimeSecondUser);
-			
-			long LoginTimeThirdUser = System.currentTimeMillis();
+			mh.interfaceMethod(1);
+			mh.interfaceMethod(2);
+			mh.interfaceMethod(3);
 			Thread.sleep(100);
-			mh.interfaceMethod(3, LoginTimeThirdUser);
-			//System.out.println(i + " times");
 		}	
 	}
 }
