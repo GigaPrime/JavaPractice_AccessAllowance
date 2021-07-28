@@ -10,7 +10,7 @@ public class Main {
 	}
 	
 	public static void singleUserTenAttemptesFiveSuccessFiveFail() throws InterruptedException{
-		MethodHandler mh = new MethodHandlerImp();
+		MethodHandler mh = new MethodHandlerImp(new RealMethodHandler());
 		
 		for(int i = 1; i <= 10; ++i){
 			mh.interfaceMethod(1);
@@ -20,7 +20,7 @@ public class Main {
 	}
 	
 	public static void singleUserTwentyAttemptesTenSuccessTenFail() throws InterruptedException{
-		MethodHandler mh = new MethodHandlerImp();
+		MethodHandler mh = new MethodHandlerImp(new RealMethodHandler());
 		
 		for(int i = 1; i <= 20; ++i){
 			mh.interfaceMethod(1);
@@ -30,7 +30,7 @@ public class Main {
 	}
 	
 	public static void multipleUserstwentyAttempts() throws InterruptedException {
-		MethodHandler mh = new MethodHandlerImp();
+		MethodHandler mh = new MethodHandlerImp(new RealMethodHandler());
 		
 		for(int i = 1; i <= 20; ++i){
 			mh.interfaceMethod(1);
